@@ -1,17 +1,58 @@
 import java.util.ArrayList;
+import java.io.File;
+import java.util.Scanner;
+import java.io.FileNotFoundException;
 
 public class PackageSimulator {
     private ArrayList<Package> packages;
+    private ArrayList<String> zipCodes;
 
     public PackageSimulator() {
         packages = new ArrayList<Package>();
+        zipCodes = zipCodes("src/ZipCodes");
     }
 
     public ArrayList<Package> generatePackages(int packageNum) {
         ArrayList<Package> newPackages = new ArrayList<Package>();
         for (int i = 0; i < packageNum; i++) {
-            // https://www.zipcode.com.ng/2022/06/list-of-5-digit-zip-codes-united-states.html
-            //The pattern is 01001 to 99999
+            String zipCode = generateZipCode();
+
+
+            /* Research links
+            https://www.statista.com/statistics/974065/cross-border-delivery-package-weight-worldwide/
+
+
+             */
         }
+        return newPackages;
+    }
+
+    public void resetSimulation() {
+        packages = new ArrayList<Package>();
+    }
+
+    private String generateZipCode() {
+        int index = (int) (Math.random() * zipCodes.size()) - 1;
+        return zipCodes.get(index);
+    }
+
+    private double generateWeight() {
+
+    }
+
+    private static ArrayList<String> zipCodes(String fileName) {
+        ArrayList<String> zipCodeList = new ArrayList<String>();
+        try {
+            File zipCodes = new File(fileName);
+            Scanner reader = new Scanner(zipCodes);
+            while (reader.hasNextLine()) {
+                String line = reader.nextLine();
+                zipCodeList.add(line);
+            }
+        }
+        catch (FileNotFoundException noFile) {
+            return null;
+        }
+        return zipCodeList;
     }
 }
