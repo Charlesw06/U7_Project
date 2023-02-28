@@ -2,8 +2,8 @@ public class PostageCalculator {
     public static double calculatePostage(String originZip, String destinationZip, double weight, double length, double width, double height) {
         double cost = 3.75;
         cost += 0.05 * (weight / 0.1);
-        cost += Math.abs((Integer.parseInt(originZip) / 100) - (Integer.parseInt(destinationZip) / 100)) / 100;
-        if (weight < 40) {
+        cost += (double) (Math.abs(Integer.parseInt(originZip.substring(0,3)) - Integer.parseInt(destinationZip.substring(0,3)))) / 100;
+        if (weight > 40) {
             cost += 0.1 * ((40 - weight) / 0.1);
         }
         if (height + length + width > 36) {

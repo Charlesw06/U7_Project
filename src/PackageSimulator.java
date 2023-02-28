@@ -27,17 +27,24 @@ public class PackageSimulator {
         return newPackages;
     }
 
+    public double generateTotalCost (ArrayList<Package> newPackages) {
+        double totalCost = 0;
+        for (Package newPackage : newPackages) {
+            totalCost += PostageCalculator.calculatePostage(newPackage);
+        }
+        return totalCost;
+    }
     public void resetSimulation() {
         packages = new ArrayList<Package>();
     }
 
     private String generateZipCode() {
-        int index = (int) (Math.random() * zipCodes.size()) - 1;
+        int index = (int) (Math.random() * zipCodes.size());
         return zipCodes.get(index);
     }
 
     private double generateWeight() {
-
+        return 0.0;
     }
 
     private static ArrayList<String> zipCodes(String fileName) {
