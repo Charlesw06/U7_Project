@@ -1,21 +1,31 @@
 import java.util.ArrayList;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 
 public class PackageSimulator {
     private ArrayList<Package> packages;
     private ArrayList<String> zipCodes;
+    private ArrayList<String> popCities;
+    private ArrayList<String> popStates;
 
     public PackageSimulator() {
         packages = new ArrayList<Package>();
-        zipCodes = zipCodes("src/ZipCodes");
+        zipCodes = fileToList("src/ZipCodes");
+        popCities = fileToList("src/PopularCities");
+        popStates = fileToList("src/StatesOfPopularCities");
     }
 
     public ArrayList<Package> generatePackages(int packageNum) {
         ArrayList<Package> newPackages = new ArrayList<Package>();
         for (int i = 0; i < packageNum; i++) {
             String zipCode = generateZipCode();
+            String cityAndState = generateCityAndState();
+            String city = cityAndState.substring(0, cityAndState.indexOf(" "));
+            String state = cityAndState.substring(cityAndState.indexOf(" ")+1);
+            double weight = generateWeight();
+
 
 
             /* Research links
@@ -43,23 +53,40 @@ public class PackageSimulator {
         return zipCodes.get(index);
     }
 
-    private double generateWeight() {
-        return 0.0;
+    private String generateCityAndState() {
+        int index = (int) (Math.random() * popCities.size());
+        return popCities.get(index) + " " + popStates.get(index);
     }
 
-    private static ArrayList<String> zipCodes(String fileName) {
-        ArrayList<String> zipCodeList = new ArrayList<String>();
+    private double generateWeight() {
+       int a = (int) (Math.random() * 7);
+       if (a == 0 || a == 1) {
+           return Math.random() * 5;
+       }
+       else if (a == 2 || a == 3 || a == 4) {
+           return (Math.random() * 10) + 5;
+       }
+       else if (a == 5 || a == 6){
+           return (Math.random() * 15) + 15;
+       }
+       else {
+           return (Math.random() * 20) + 30;
+       }
+    }
+
+    private static ArrayList<String> fileToList(String fileName) {
+        ArrayList<String> list = new ArrayList<String>();
         try {
-            File zipCodes = new File(fileName);
-            Scanner reader = new Scanner(zipCodes);
+            File file = new File(fileName);
+            Scanner reader = new Scanner(file);
             while (reader.hasNextLine()) {
                 String line = reader.nextLine();
-                zipCodeList.add(line);
+                list.add(line);
             }
         }
         catch (FileNotFoundException noFile) {
             return null;
         }
-        return zipCodeList;
+        return list;
     }
 }
