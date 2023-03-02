@@ -18,7 +18,7 @@ public class PackageSimulator {
     }
 
     public ArrayList<Package> generatePackages(int packageNum) {
-        ArrayList<Package> newPackages = new ArrayList<Package>();
+        resetSimulation();
         for (int i = 0; i < packageNum; i++) {
             Address origin = generateAddress();
             Address destination = generateAddress();
@@ -28,14 +28,14 @@ public class PackageSimulator {
             double height = generateDimension(weight);
             double width = generateDimension(weight);
 
-            newPackages.add(new Package(origin, destination, weight, length, height, width));
+            packages.add(new Package(origin, destination, weight, length, height, width));
         }
-        return newPackages;
+        return packages;
     }
 
-    public double generateTotalCost(ArrayList<Package> newPackages) {
+    public double generateTotalCost() {
         double totalCost = 0;
-        for (Package newPackage : newPackages) {
+        for (Package newPackage : packages) {
             totalCost += PostageCalculator.calculatePostage(newPackage);
         }
         return totalCost;

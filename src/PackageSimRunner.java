@@ -49,7 +49,7 @@ public class PackageSimRunner {
                     System.out.println("Cost: " + PostageCalculator.calculatePostage(packages.get(i)));
                 }
                 System.out.println("________________________________");
-                System.out.println("Total cost of all packages: " + p.generateTotalCost(packages));
+                System.out.println("Total cost of all packages: " + p.generateTotalCost());
             }
             else if (Integer.parseInt(input) == 3) {
                 System.out.println("General Formula:\n   - Base cost of $3.75\n   - For each tenth of a pound, $0.05 is added\n   - Difference in county codes divided by 100 is added");
