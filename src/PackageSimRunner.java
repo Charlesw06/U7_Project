@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class PackageSimRunner {
     public static void main(String[] args) {
@@ -32,11 +33,27 @@ public class PackageSimRunner {
                 System.out.println("Cost: " + cost);
             }
             else if (Integer.parseInt(input) == 2) {
+                System.out.print("How many packages would you like to simulate? ");
+                String numPackages = s.nextLine();
+                System.out.println("Randomly generated packages info: ");
 
+                ArrayList<Package> packages = p.generatePackages(Integer.parseInt(numPackages));
+                for (int i = 0; i < packages.size(); i++) {
+                    System.out.println("Package " + (i+1) + ": ________________________________");
+                    System.out.println("Origin address: " + packages.get(i).getOrigin().toString());
+                    System.out.println("Destination address: " + packages.get(i).getDestination().toString());
+                    System.out.println("Weight: " + packages.get(i).getWeight());
+                    System.out.println("Height: " + packages.get(i).getHeight());
+                    System.out.println("Length: " + packages.get(i).getLength());
+                    System.out.println("Width: " + packages.get(i).getWidth());
+                    System.out.println("Cost: " + PostageCalculator.calculatePostage(packages.get(i)));
+                }
+                System.out.println("________________________________");
+                System.out.println("Total cost of all packages: " + p.generateTotalCost(packages));
             }
             else if (Integer.parseInt(input) == 3) {
                 System.out.println("General Formula:\n   - Base cost of $3.75\n   - For each tenth of a pound, $0.05 is added\n   - Difference in county codes divided by 100 is added");
-                System.out.println("\nRules for Oversized Packages:\n   - If package is over 36 combined inches, $0.10 added for each inch over 36\n   - If package weighs over 40 pounds, $0.10 added for each pound over 40");
+                System.out.println("\nRules for Oversize Packages:\n   - If package is over 36 combined inches, $0.10 added for each inch over 36\n   - If package weighs over 40 pounds, $0.10 added for each pound over 40");
             }
 
             if (input.equals("1") || input.equals("2") || input.equals("3")) {

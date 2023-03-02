@@ -1,5 +1,8 @@
+import java.text.DecimalFormat;
+
 public class PostageCalculator {
     public static double calculatePostage(String originZip, String destinationZip, double weight, double length, double width, double height) {
+        DecimalFormat twoDForm = new DecimalFormat("#.00");
         double cost = 3.75;
         cost += 0.05 * (weight / 0.1);
         cost += (double) (Math.abs(Integer.parseInt(originZip.substring(0,3)) - Integer.parseInt(destinationZip.substring(0,3)))) / 100;
@@ -9,7 +12,7 @@ public class PostageCalculator {
         if (height + length + width > 36) {
             cost += 0.1 * (length + width + height - 36);
         }
-        return cost;
+        return Double.parseDouble(twoDForm.format(cost));
     }
 
     public static double calculatePostage(Address origin, Address destination, double weight, double length, double width, double height) {

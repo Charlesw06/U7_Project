@@ -73,6 +73,6 @@ public class Address {
     }
 
     public String toString() {
-        return streetNum + " " + streetName + " " + apartmentNum + ", " + city + ", " + state + zipCode;
+        return streetNum + " " + streetName + " " + apartmentNum + ", " + city + ", " + state + " " +zipCode;
     }
 }

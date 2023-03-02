@@ -20,24 +20,20 @@ public class PackageSimulator {
     public ArrayList<Package> generatePackages(int packageNum) {
         ArrayList<Package> newPackages = new ArrayList<Package>();
         for (int i = 0; i < packageNum; i++) {
-            String zipCode = generateZipCode();
-            String cityAndState = generateCityAndState();
-            String city = cityAndState.substring(0, cityAndState.indexOf(" "));
-            String state = cityAndState.substring(cityAndState.indexOf(" ")+1);
+            Address origin = generateAddress();
+            Address destination = generateAddress();
+
             double weight = generateWeight();
+            double length = generateDimension(weight);
+            double height = generateDimension(weight);
+            double width = generateDimension(weight);
 
-
-
-            /* Research links
-            https://www.statista.com/statistics/974065/cross-border-delivery-package-weight-worldwide/
-
-
-             */
+            newPackages.add(new Package(origin, destination, weight, length, height, width));
         }
         return newPackages;
     }
 
-    public double generateTotalCost (ArrayList<Package> newPackages) {
+    public double generateTotalCost(ArrayList<Package> newPackages) {
         double totalCost = 0;
         for (Package newPackage : newPackages) {
             totalCost += PostageCalculator.calculatePostage(newPackage);
@@ -55,13 +51,13 @@ public class PackageSimulator {
 
     private String generateCityAndState() {
         int index = (int) (Math.random() * popCities.size());
-        return popCities.get(index) + " " + popStates.get(index);
+        return popCities.get(index) + "," + popStates.get(index);
     }
 
     private double generateWeight() {
        int a = (int) (Math.random() * 7);
        if (a == 0 || a == 1) {
-           return Math.random() * 5;
+           return (Math.random() * 5)+1;
        }
        else if (a == 2 || a == 3 || a == 4) {
            return (Math.random() * 10) + 5;
@@ -70,8 +66,35 @@ public class PackageSimulator {
            return (Math.random() * 15) + 15;
        }
        else {
-           return (Math.random() * 20) + 30;
+           return (Math.random() * 30) + 30;
        }
+    }
+
+    private double generateDimension(double weight) {
+        if (weight < 5) {
+            return (Math.random() * 5) + 5;
+        }
+        else if (weight >= 5 && weight < 15) {
+            return (Math.random() * 10) + 7;
+        }
+        else if (weight >= 15 && weight < 30) {
+            return (Math.random() * 10) + 10;
+        }
+        else {
+            return (Math.random() * 10) + 15;
+        }
+    }
+
+    private Address generateAddress() {
+        String zipCode = generateZipCode();
+        String cityAndState = generateCityAndState();
+        String city = cityAndState.substring(0, cityAndState.indexOf(","));
+        String state = cityAndState.substring(cityAndState.indexOf(",")+1);
+        String streetNum = Integer.toString((int) (Math.random() * 900) + 100);
+        String streetName = ((int) (Math.random() * 80) + 1) + "th Street";
+        String[] apartmentLetters = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
+        String apartmentNum = "Apt " + ((int) (Math.random() * 9)+1) + apartmentLetters[(int) (Math.random() * apartmentLetters.length)];
+        return new Address(streetNum, streetName, city, state, zipCode, apartmentNum);
     }
 
     private static ArrayList<String> fileToList(String fileName) {
