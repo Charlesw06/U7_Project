@@ -3,6 +3,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 
 public class PackageSimulator {
     private ArrayList<Package> packages;
@@ -17,7 +18,7 @@ public class PackageSimulator {
         popStates = fileToList("src/StatesOfPopularCities");
     }
 
-    public ArrayList<Package> generatePackages(int packageNum) {
+    public void generatePackages(int packageNum) {
         resetSimulation();
         for (int i = 0; i < packageNum; i++) {
             Address origin = generateAddress();
@@ -30,16 +31,34 @@ public class PackageSimulator {
 
             packages.add(new Package(origin, destination, weight, length, height, width));
         }
-        return packages;
     }
 
     public double generateTotalCost() {
+        DecimalFormat twoDForm = new DecimalFormat("#.00");
         double totalCost = 0;
         for (Package newPackage : packages) {
             totalCost += PostageCalculator.calculatePostage(newPackage);
         }
-        return totalCost;
+        return Double.parseDouble(twoDForm.format(totalCost));
     }
+
+    public String getSimulationInfo() {
+        String info = "Randomly generated packages info: ";
+        for (int i = 0; i < packages.size(); i++) {
+            info += "\nPackage " + (i+1) + ": ________________________________";
+            info += "\nOrigin address: " + packages.get(i).getOrigin().toString();
+            info += "\nDestination address: " + packages.get(i).getDestination().toString();
+            info += "\nWeight: " + packages.get(i).getWeight();
+            info += "\nHeight: " + packages.get(i).getHeight();
+            info += "\nLength: " + packages.get(i).getLength();
+            info += "\nWidth: " + packages.get(i).getWidth();
+            info += "\nCost: " + PostageCalculator.calculatePostage(packages.get(i));
+        }
+        info += "\n________________________________";
+        info += "\nTotal cost of all packages: " + generateTotalCost();
+        return info;
+    }
+
     public void resetSimulation() {
         packages = new ArrayList<Package>();
     }

@@ -37,19 +37,8 @@ public class PackageSimRunner {
                 String numPackages = s.nextLine();
                 System.out.println("Randomly generated packages info: ");
 
-                ArrayList<Package> packages = p.generatePackages(Integer.parseInt(numPackages));
-                for (int i = 0; i < packages.size(); i++) {
-                    System.out.println("Package " + (i+1) + ": ________________________________");
-                    System.out.println("Origin address: " + packages.get(i).getOrigin().toString());
-                    System.out.println("Destination address: " + packages.get(i).getDestination().toString());
-                    System.out.println("Weight: " + packages.get(i).getWeight());
-                    System.out.println("Height: " + packages.get(i).getHeight());
-                    System.out.println("Length: " + packages.get(i).getLength());
-                    System.out.println("Width: " + packages.get(i).getWidth());
-                    System.out.println("Cost: " + PostageCalculator.calculatePostage(packages.get(i)));
-                }
-                System.out.println("________________________________");
-                System.out.println("Total cost of all packages: " + p.generateTotalCost());
+                p.generatePackages(Integer.parseInt(numPackages));
+                System.out.println(p.getSimulationInfo());
             }
             else if (Integer.parseInt(input) == 3) {
                 System.out.println("General Formula:\n   - Base cost of $3.75\n   - For each tenth of a pound, $0.05 is added\n   - Difference in county codes divided by 100 is added");
